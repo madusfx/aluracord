@@ -2,6 +2,7 @@ import { Box, Button, Text, TextField, Image } from '@skynexui/components';
 import React from 'react';
 import { useRouter } from 'next/router';
 import appConfig from '../config.json';
+import Link from 'next/link';
 
 function Title(props) {
   const Tag = props.tag;
@@ -136,7 +137,7 @@ export default function PaginaInicial() {
                 borderRadius: '50%',
                 marginBottom: '16px',
               }}
-              src={`https://github.com/${username}.png`}
+              src={username.length < 3 ? '/hello-robot.png' : `https://github.com/${username}.png`}
             />
             <Text
               variant="body4"
@@ -147,7 +148,13 @@ export default function PaginaInicial() {
                 borderRadius: '1000px'
               }}
             >
-              {username}
+              {username.length < 3 ? 'Informe seu user' :
+                <Link 
+                  href={`https://github.com/${username}`}
+                >
+                  {username}
+                </Link>
+            }
             </Text>
           </Box>
           {/* Photo Area */}
