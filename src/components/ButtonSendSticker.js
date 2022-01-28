@@ -8,7 +8,7 @@ export function ButtonSendSticker(props) {
   return (
     <Box
       styleSheet={{
-        position: 'relative',
+        position: 'relative', 
       }}
     >
       <Button
@@ -23,12 +23,7 @@ export function ButtonSendSticker(props) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          backgroundColor: appConfig.theme.colors.primary['050'],
-          filter: isOpen ? 'grayscale(0)' : 'grayscale(1)',
-          hover: {
-            backgroundColor: appConfig.theme.colors.primary['100'],
-            filter: 'grayscale(0)',
-          }
+          backgroundColor: appConfig.theme.colors['purple-one'],
         }}
         label="🐔"
         onClick={() => setOpenState(!isOpen)}
@@ -40,7 +35,7 @@ export function ButtonSendSticker(props) {
             flexDirection: 'column',
             borderRadius: '5px',
             position: 'absolute',
-            backgroundColor: appConfig.theme.colors.primary['100'],
+            backgroundColor: appConfig.theme.colors['purple-one'],
             width: {
               xs: '200px',
               sm: '290px',
@@ -55,11 +50,11 @@ export function ButtonSendSticker(props) {
         >
           <Text
             styleSheet={{
-              color: appConfig.theme.colors.primary['050'],
+              color: appConfig.theme.colors['white'],
               fontWeight: 'bold',
             }}
           >
-            Stickers
+            Gif's
           </Text>
           <Box
             tag="ul"
@@ -85,10 +80,10 @@ export function ButtonSendSticker(props) {
                   borderRadius: '5px',
                   padding: '10px',
                   focus: {
-                    backgroundColor: appConfig.theme.colors.primary['200'],
+                    backgroundColor: appConfig.theme.colors['purple-one'],
                   },
                   hover: {
-                    backgroundColor: appConfig.theme.colors.primary['200'],
+                    backgroundColor: appConfig.theme.colors['purple-one'],
                   }
                 }}
               >

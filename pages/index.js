@@ -11,7 +11,7 @@ function Title(props) {
       <Tag>{props.children}</Tag>
       <style jsx>{`
         ${Tag} {
-          color: ${appConfig.theme.colors.primary["100"]};
+          color: ${appConfig.theme.colors['white']};
           font-size: 24px;
           font-weight: 600;
         }
@@ -20,28 +20,18 @@ function Title(props) {
   )
 }
 
-// function HomePage() {
-//   return (
-//     <div>
-//       <GlobalStyle />
-//       <Title tag="h2">Boas vindas de volta!</Title>
-//       <h2>Discord - Alura Matrix</h2>
-//     </div>
-//   ) 
-// };
-
-//export default HomePage;
-
 export default function PaginaInicial() {
   const [username, setUsername] = React.useState('');
   const routing = useRouter();
+  const imageDefault = 'https://i.pinimg.com/474x/79/25/6d/79256ddaf1506418b85112a77e582814.jpg';
+  const nameDefault = 'Joey Tribbiani';
 
   return (
     <>
       <Box
         styleSheet={{
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          backgroundImage: 'url(https://1.bp.blogspot.com/-EmtBnYBUD_s/X0lscSLzcCI/AAAAAAAA13k/DTqh7nICc409HfjO_l8ERIf8A849jm9qwCLcBGAsYHQ/s2560/code_symbols_programming_183643_3840x2160.jpg)',
+          backgroundImage: `url(/background-friends.png)`,
           backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
         }}
       >
@@ -57,10 +47,9 @@ export default function PaginaInicial() {
             width: '100%', maxWidth: '700px',
             borderRadius: '5px', padding: '32px', margin: '16px',
             boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
-            backgroundColor: appConfig.theme.colors.primary['050'],
+            backgroundColor: appConfig.theme.colors['purple-one'],
           }}
         >
-          {/* Formulário */}
           <Box
             as="form"
             onSubmit={function (event) {
@@ -72,19 +61,10 @@ export default function PaginaInicial() {
               width: { xs: '100%', sm: '50%' }, textAlign: 'center', marginBottom: '32px',
             }}
           >
-            <Title tag="h2">Bem vindo a sala de estudos!</Title>
-            <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors.primary["100"] }}>
+            <Title tag="h2">Bem vindo ao Friendiscord!</Title>
+            <Text variant="body3" styleSheet={{ marginBottom: '32px', color: appConfig.theme.colors['white'] }}>
               Faça login para começar uma nova conversa.
             </Text>
-
-            {/* <input 
-              type="text"
-              value={username}
-              onChange={function (event) {
-                const valor = event.target.value;
-                setUsername(valor);
-              }}
-            /> */}
             <TextField
               value={username}
               onChange={function (event) {
@@ -94,10 +74,10 @@ export default function PaginaInicial() {
               fullWidth
               textFieldColors={{
                 neutral: {
-                  textColor: appConfig.theme.colors.primary["100"],
-                  mainColor: appConfig.theme.colors.primary["100"],
-                  mainColorHighlight: appConfig.theme.colors.primary["050"],
-                  backgroundColor: appConfig.theme.colors.primary["050"],
+                  textColor: appConfig.theme.colors['white'],
+                  mainColor: appConfig.theme.colors['white'],
+                  mainColorHighlight: appConfig.theme.colors['purple-two'],
+                  backgroundColor: appConfig.theme.colors['purple-two'],
                 },
               }}
             />
@@ -106,17 +86,13 @@ export default function PaginaInicial() {
               label='Entrar'
               fullWidth
               buttonColors={{
-                contrastColor: appConfig.theme.colors.primary["100"],
-                mainColor: appConfig.theme.colors.primary["200"],
-                mainColorLight: appConfig.theme.colors.primary["400"],
-                mainColorStrong: appConfig.theme.colors.primary["200"],
+                contrastColor: appConfig.theme.colors['white'],
+                mainColor: appConfig.theme.colors['purple-two'],
+                mainColorLight: appConfig.theme.colors['purple-two'],
+                mainColorStrong: appConfig.theme.colors['purple-two'],
               }}
             />
           </Box>
-          {/* Formulário */}
-
-
-          {/* Photo Area */}
           <Box
             styleSheet={{
               display: 'flex',
@@ -124,9 +100,9 @@ export default function PaginaInicial() {
               alignItems: 'center',
               maxWidth: '200px',
               padding: '16px',
-              backgroundColor: appConfig.theme.colors.primary["200"],
+              backgroundColor: appConfig.theme.colors['purple-two'],
               border: '1px solid',
-              borderColor: appConfig.theme.colors.primary["200"],
+              borderColor: appConfig.theme.colors['white'],
               borderRadius: '10px',
               flex: 1,
               minHeight: '240px',
@@ -137,18 +113,18 @@ export default function PaginaInicial() {
                 borderRadius: '50%',
                 marginBottom: '16px',
               }}
-              src={username.length < 3 ? '/hello-robot.png' : `https://github.com/${username}.png`}
+              src={username.length > 2 ? `https://github.com/${username}.png` : imageDefault}
             />
             <Text
               variant="body4"
               styleSheet={{
-                color: appConfig.theme.colors.primary["200"],
-                backgroundColor: appConfig.theme.colors.primary["100"],
+                color: appConfig.theme.colors['white'],
+                backgroundColor: appConfig.theme.colors['purple-one'],
                 padding: '3px 10px',
                 borderRadius: '1000px'
               }}
             >
-              {username.length < 3 ? 'Informe seu user' :
+              {username.length < 3 ? nameDefault :
                 <Link 
                   href={`https://github.com/${username}`}
                 >
@@ -157,7 +133,6 @@ export default function PaginaInicial() {
             }
             </Text>
           </Box>
-          {/* Photo Area */}
         </Box>
       </Box>
     </>

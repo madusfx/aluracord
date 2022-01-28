@@ -34,7 +34,7 @@ export default function ChatPage() {
         })
 
       const subscription = listeningMessages((newMessage) => {
-        setListaDeMensagens((currentValueList) => {
+        setMessageList((currentValueList) => {
           return [
             newMessage,
             ...currentValueList,
@@ -82,10 +82,10 @@ export default function ChatPage() {
     <Box
       styleSheet={{
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        backgroundColor: appConfig.theme.colors.primary['050'],
-        backgroundImage: `url(https://1.bp.blogspot.com/-EmtBnYBUD_s/X0lscSLzcCI/AAAAAAAA13k/DTqh7nICc409HfjO_l8ERIf8A849jm9qwCLcBGAsYHQ/s2560/code_symbols_programming_183643_3840x2160.jpg)`,
+        backgroundColor: appConfig.theme.colors['purple-one'],
+        backgroundImage: `url(/background-friends.png)`,
         backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundBlendMode: 'multiply',
-        color: appConfig.theme.colors.primary['000']
+        color: appConfig.theme.colors['white']
       }}
     >
       <Box
@@ -95,7 +95,7 @@ export default function ChatPage() {
           flex: 1,
           boxShadow: '0 2px 10px 0 rgb(0 0 0 / 20%)',
           borderRadius: '5px',
-          backgroundColor: appConfig.theme.colors.primary['100'],
+          backgroundColor: appConfig.theme.colors['purple-one'],
           height: '100%',
           maxWidth: '95%',
           maxHeight: '95vh',
@@ -109,7 +109,7 @@ export default function ChatPage() {
             display: 'flex',
             flex: 1,
             height: '80%',
-            backgroundColor: appConfig.theme.colors.primary['050'],
+            backgroundColor: appConfig.theme.colors['purple-two'],
             flexDirection: 'column',
             borderRadius: '5px',
             padding: '16px',
@@ -144,9 +144,12 @@ export default function ChatPage() {
                 resize: 'none',
                 borderRadius: '5px',
                 padding: '6px 8px',
-                backgroundColor: appConfig.theme.colors.primary['100'],
+                backgroundColor: appConfig.theme.colors['purple-one'],
                 marginRight: '12px',
-                color: appConfig.theme.colors.primary['200'],
+                color: appConfig.theme.colors['white'],
+                placeholder: {
+                  color: appConfig.theme.colors['white'],
+                }
               }}
             />
             <ButtonSendSticker 
@@ -154,6 +157,32 @@ export default function ChatPage() {
                 handleNewMessage(':sticker:' + sticker);
               }}
             />
+            <Button 
+                label={<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-send"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>}
+                styleSheet={{
+                  borderRadius: '5px',
+                  backgroundColor: appConfig.theme.colors['purple-one'],
+                  minWidth: '50px',
+                  minHeight: '50px',
+                  marginLeft: '8px',
+                  fontSize: '20px',
+                  marginBottom: '8px',
+                  lineHeight: '0',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+                variant='tertiary'
+                colorVariant='dark'
+                buttonColors={{
+                  mainColor: appConfig.theme.colors['white'],
+                }}
+                onClick={(event) => {
+                  event.preventDefault()
+                  deleteMessage(message)
+                }}
+							onClick={e => handleNewMessage(message)}
+						/>
           </Box>
         </Box>
       </Box>
@@ -168,11 +197,23 @@ function Header() {
         <Text variant='heading5'>
           Chat
         </Text>
+        <Image src="/friends-Logo.png" 
+          styleSheet={{
+            width: '150px',
+            height: '75px'
+          }}
+        />
         <Button
           variant='tertiary'
           colorVariant='neutral'
           label='Logout'
           href="/"
+          styleSheet={{
+            color: appConfig.theme.colors['white'],
+            hover: {
+              backgroundColor: appConfig.theme.colors['purple-two']
+            }
+          }}
         />
       </Box>
     </>
@@ -190,7 +231,7 @@ function MessageList(props) {
         display: 'flex',
         flexDirection: 'column-reverse',
         flex: 1,
-        color: appConfig.theme.colors.primary['100'],
+        color: appConfig.theme.colors['purple-one'],
         marginBottom: '16px',
         overflow: 'auto',
       }}
@@ -205,8 +246,9 @@ function MessageList(props) {
               borderRadius: '5px',
               padding: '6px',
               marginBottom: '12px',
+              color: appConfig.theme.colors['white'],
               hover: {
-                backgroundColor: appConfig.theme.colors.primary['200'],
+                backgroundColor: appConfig.theme.colors['purple-one'],
               }
             }}
           >
@@ -232,7 +274,7 @@ function MessageList(props) {
                 styleSheet={{
                   fontSize: '10px',
                   marginLeft: '8px',
-                  color: appConfig.theme.colors.primary['100'],
+                  color: appConfig.theme.colors['white'],
                 }}
                 tag="span"
               >
@@ -248,7 +290,7 @@ function MessageList(props) {
                 colorVariant='dark'
                 label={<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather feather-trash"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>}
                 buttonColors={{
-                  mainColor: appConfig.theme.colors.primary['100'],
+                  mainColor: appConfig.theme.colors['white'],
                 }}
                 onClick={(event) => {
                   event.preventDefault()
