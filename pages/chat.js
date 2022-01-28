@@ -58,9 +58,7 @@ export default function ChatPage() {
           .insert([
             message
           ])
-          .then(({ data }) => {
-            console.log('Criando mensagem: ', data);
-          });
+          .then(({ data }) => {});
     
         setMessage('');
     }
@@ -115,7 +113,7 @@ export default function ChatPage() {
             padding: '16px',
           }}
         >
-          <MessageList mensagens={messageList} deleteMessage={deleteMessage}/>
+          <MessageList mensagens={messageList} deleteMessage={deleteMessage} username={userLogged}/>
           <Box
             as="form"
             styleSheet={{
@@ -179,7 +177,7 @@ export default function ChatPage() {
                 }}
                 onClick={(event) => {
                   event.preventDefault()
-                  deleteMessage(message)
+                  handleNewMessage(message)
                 }}
 							onClick={e => handleNewMessage(message)}
 						/>
@@ -222,6 +220,7 @@ function Header() {
 
 function MessageList(props) {
   const deleteMessage = props.deleteMessage;
+  const username = props.username;
 
   return (
     <Box
@@ -280,6 +279,8 @@ function MessageList(props) {
               >
                 {(new Date().toLocaleDateString())}
               </Text>
+              
+              {message.from === username && 
               <Button 
                 styleSheet={{
                   borderRadius: '25%',
@@ -297,6 +298,7 @@ function MessageList(props) {
                   deleteMessage(message)
                 }}
               />
+              }
             </Box>
             {message.text.startsWith(':sticker:') ? <Image src={message.text.replace(':sticker:', '')}/> : message.text}
           </Text>
