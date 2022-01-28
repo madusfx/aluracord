@@ -1,13 +1,26 @@
 import { Box, Text, TextField, Image, Button } from '@skynexui/components';
 import React from 'react';
 import appConfig from '../config.json';
+import { useRouter } from 'next/router';
 import { createClient } from '@supabase/supabase-js';
+import { ButtonSendSticker } from '../src/components/ButtonSendSticker'
 
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYW5vbiIsImlhdCI6MTY0MzMwOTM2MCwiZXhwIjoxOTU4ODg1MzYwfQ.K86iUMZzywgO7LpsFiUKksvjwjpziGRm8cTD7bd2qnM';
 const SUPABASE_URL = 'https://bdsfimngsrbulrrglvgn.supabase.co';
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+function listeningMessages(addMessage) {
+  return supabaseClient
+    .from('messages')
+    .on('INSERT', (responseLive) => {
+      addMessage(responseLive.new);
+    })
+    .subscribe();
+}
+
 export default function ChatPage() {
+    const routing = useRouter();
+    const userLogged = routing.query.username;
     const [message, setMessage] = React.useState('');
     const [messageList, setMessageList] = React.useState([]);
 
@@ -17,14 +30,26 @@ export default function ChatPage() {
         .select('*')
         .order('id', { ascending: false })
         .then(({ data }) => {
-          console.log('Dados da consulta:', data);
           setMessageList(data);
         })
+
+      const subscription = listeningMessages((newMessage) => {
+        setListaDeMensagens((currentValueList) => {
+          return [
+            newMessage,
+            ...currentValueList,
+          ]
+        });
+      });
+    
+      return () => {
+        subscription.unsubscribe();
+      }
     }, []);
 
     function handleNewMessage(newMessage) {
         const message = {
-            from: 'madusfx',
+            from: userLogged,
             text: newMessage,
         };
 
@@ -33,14 +58,11 @@ export default function ChatPage() {
           .insert([
             message
           ])
-          .then((data) => {
-            console.log('criando mensahgem', data);
-            setMessageList([
-              data.data[0],
-              ...messageList,
-          ]);
-          })
-          setMessage('');
+          .then(({ data }) => {
+            console.log('Criando mensagem: ', data);
+          });
+    
+        setMessage('');
     }
 
     function deleteMessage(currentMessage) {
@@ -94,13 +116,6 @@ export default function ChatPage() {
           }}
         >
           <MessageList mensagens={messageList} deleteMessage={deleteMessage}/>
-          {/* {listaDeMensagens.map((mensagemAtual) => {
-              return (
-                  <li key={mensagemAtual.id}>
-                      {mensagemAtual.de}: {mensagemAtual.text}
-                  </li>
-              )
-          })} */}
           <Box
             as="form"
             styleSheet={{
@@ -134,6 +149,11 @@ export default function ChatPage() {
                 color: appConfig.theme.colors.primary['200'],
               }}
             />
+            <ButtonSendSticker 
+              onStickerClick={(sticker) => {
+                handleNewMessage(':sticker:' + sticker);
+              }}
+            />
           </Box>
         </Box>
       </Box>
@@ -158,8 +178,6 @@ function Header() {
     </>
   )
 }
-
-
 
 function MessageList(props) {
   const deleteMessage = props.deleteMessage;
@@ -238,10 +256,10 @@ function MessageList(props) {
                 }}
               />
             </Box>
-            {message.text}
+            {message.text.startsWith(':sticker:') ? <Image src={message.text.replace(':sticker:', '')}/> : message.text}
           </Text>
         );
       })}
     </Box>
-    )
+  )
 }
